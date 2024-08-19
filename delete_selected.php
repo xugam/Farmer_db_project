@@ -21,6 +21,6 @@
             echo "No checkboxes were selected.";
         }
     }
-    // echo $arr;
+    header("Location:./index.php");
     
 ?>
