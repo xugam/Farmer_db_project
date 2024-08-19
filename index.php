@@ -29,6 +29,20 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
   </script>
 
+<script>
+    function toggleForm() {
+      var form = document.getElementById('insertForm');
+      var button = document.getElementById('toggleButton');
+      if (form.style.display === 'none') {
+        form.style.display = 'block';
+        button.textContent = 'Hide Form';
+      } else {
+        form.style.display = 'none';
+        button.textContent = 'Insert Data';
+      }
+    }
+  </script>
+
   
 </head>
 <body class="container">
@@ -40,7 +54,6 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
   </div>
-</nav>
 </nav>
     
 <!-- MENU -->
@@ -60,7 +73,9 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
 <main class="main-content">
       <div class="profile-section">
         <h6>Profile Data</h6>
-        <form class="insert-data-form" action="./insert_details.php">
+        <button id="toggleButton" class="btn-primary mb-3" onclick="toggleForm()">Insert Data</button>
+        <form id="insertForm" class="insert-data-form" action="./insert_details.php">
+        <div class="form-fields-container">
   <div class="form-group">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required>
@@ -75,11 +90,22 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
   </div>
   <div class="form-group">
     <label for="state">State:</label>
-    <input type="text" id="state" name="state" required>
+    <select id="state" name="state" required onchange="updateDistricts()">
+    <option value="">Select State</option>
+    <option value="Koshi">Koshi</option>
+    <option value="Madesh">Madesh</option>
+    <option value="Bagmati">Bagmati</option>
+    <option value="Gandaki">Gandaki</option>
+    <option value="Lumbini">Lumbini</option>
+    <option value="Karnali">Karnali</option>
+    <option value="Sudurpashchim">Sudurpashchim</option>
+    </select>
   </div>
   <div class="form-group">
     <label for="district">District:</label>
-    <input type="text" id="district" name="district" required>
+    <select id="district" name="district" required>
+        <option value="">Select District</option>
+    </select>
   </div>
   <div class="form-group">
     <label for="city">City:</label>
@@ -89,12 +115,18 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
     <label for="document">Document Upload:</label>
     <input type="file" id="document" name="document" accept=".pdf, .doc, .docx, .jpg, .png">
   </div>
-  <button type="submit" class="btn-primary">Insert Data</button>
+  </div>
+  <button type="submit" class="btn-primary2">Submit</button>
 </form>
-
+<!-- Delete Button -->
+<form method="post" action="delete_selected.php">
+  <div class="delete-button-container">
+      <button type="submit" name="delete" class="btn-delete">Delete Selected</button>
+      </div>
         <table class="data-table">
           <thead>
             <tr>
+            <th>Select  </th>
               <th>Name</th>
               <th>Email</th>
               <th>Phone Number</th>
@@ -109,6 +141,7 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
 
               <?php foreach($rows as $data):?>
                 <tr>
+                <td><input type="checkbox" name="select[]" value="<?= $data['id']?>"></td>
               <td><?= $data['name']?></td>
               <td><?= $data['email']?></td>
               <td><?= $data['phone_number']?></td>
@@ -116,14 +149,13 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
               <td><?= $data['district']?></td>
               <td><?= $data['city']?></td>
               <td><?= $data['document']?></td>
-
-
               </tr>
               <?php endforeach?>
 
              
           </tbody>
         </table>
+        </form>
       </div>
     </main> 
     </div>
@@ -131,3 +163,39 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
 
 </body>
 </html>
+
+
+<script>
+    const districtsByState = {
+        "Koshi": ["Bhojpur", "Dhankuta", "Illam", "Jhapa", "Khotang", "Morang", "Okhaldhunga", "Pachthar", "Sankhuwasabha", 
+        "Solukhumbu", "Sunsari", "Taplejung", "Terathum", "Udayapur"],
+        "Madesh": ["Saptari", "Siraha", "Dhanusha", "Mahottari", "Sarlahi", "Bara", "Parsa", "Rautahat"],
+        "Bagmati": ["Sindhuli", "Ramechhap", "Dolakha", "Bhaktapur", "Dhading", "Kathmandu", "Kavrepalanchowk", "Lalitpur", 
+        "Nuwakot", "Rasuwa", "Sindhupalchok", "Chitwan", "Makwanpur"],
+        "Gandaki": ["Baglung", "Gorkha", "Kaski", "Lamjung", "Manang", "Mustang", "Myagdi", "Nawalpur", "Parbat", 
+        "Syangja", "Tanahun"],
+        "Lumbini": ["Kapilvastu", "Parasi", "Rupandehi", "Arghakhanchi", "Gulmi", "Palpa", "Dang", "Pyuthan", "Rolpa", 
+        "Eastern Rukum", "Banke", "Bardiya"],
+        "Karnali": ["Western Rukum", "Salyan", "Dolpa", "Humla", "Jumla", "Kalikot", "Mugu", "Surkhet", "Dailekh", "Jajarkot"],
+        "Sudurpashchim": ["Kailali", "Achham", "Doti", "Bajhang", "Bajura", "Kanchanpur", "Dadeldhura", "Baitadi", "Darchula"]
+    };
+
+    function updateDistricts() {
+        const stateSelect = document.getElementById('state');
+        const districtSelect = document.getElementById('district');
+        const selectedState = stateSelect.value;
+
+        // Clear current district options
+        districtSelect.innerHTML = '<option value="">Select District</option>';
+
+        // Populate districts based on selected state
+        if (districtsByState[selectedState]) {
+            districtsByState[selectedState].forEach(district => {
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
+            });
+        }
+    }
+</script>
