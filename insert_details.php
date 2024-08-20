@@ -10,7 +10,7 @@
     //  $document=$_GET['document'];
     // $document_name = $_FILES['document']['name'];
     $document_name = "xD";
-     $document = addslashes(file_get_contents($_FILES['document']['tmp_name']));
+    //  $document = addslashes(file_get_contents($_FILES['document']['tmp_name']));
 
     $phone_number=$_GET['phone'];
     $email=$_GET['email'];
@@ -19,7 +19,7 @@
     $city = $_GET['city'];
     echo $name."<br>".$document."<br>".$phone_number."<br>".$email."<br>".$state."<br>".$district."<br>".$city;
 
-    $query1 = "INSERT INTO profile(name,document_name,document) values('$name','$documentname','$document');";
+    $query1 = "INSERT INTO profile(name,document_name) values('$name','$documentname');";
     $query = "INSERT INTO contact_info(phone_number,email,state,district,city) values('$phone_number','$email','$state','$district','$city');";
     $result = mysqli_query($conn,$query1);
     $result1 = mysqli_query($conn,$query);

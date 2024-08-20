@@ -9,15 +9,17 @@
       margin-right: -9%;
       padding-left: 8%;
       font-size: 48px;
+      position: sticky;
+      box-shadow: 5px 0 5px #222222; 
+      top: 0;
+      z-index: 1000; /* Keeps the navbar above other elements */
+
   }
   .navbar .navbar-brand{
       font-size: 16px;
   }
   .navbar .d-flex{
   margin-right: 20%;
-  }
-  .navbar{
-    box-shadow: 5px 0 5px #222222; 
   }
   .custom-navbar .btn-outline-success{
       color: #00536b;
@@ -29,7 +31,23 @@
       background-color: #00536b; 
       color: #fff; 
   }
-  
+  .d-flex-navi{
+    margin-right: 8%;
+    display: flex;
+  }
+  .d-flex-navi #nav-settings-link{
+    padding-right: 20px;
+  }
+  .d-flex-navi #nav-profile-link{
+    padding-right: 20px;
+  }
+  .d-flex-navi #nav-out-link{
+    color: #f03949;
+  }
+  .nav-link{
+    font-size: 26px;
+    color: #00536b;
+  }
   /* Body */
   body {
    background-color: #ffffff;
@@ -37,12 +55,51 @@
   }
   
   /* Menu */
+  .menu-box ul li a {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and text */
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 3px;
+  }
+  .menu-box h6 i{
+    padding-right: 10px;
+    padding-left: 3px;
+  }
+  .menu-box ul li a i {
+    font-size: 18px; 
+    padding-right: 10px;
+  }
+  
+  .menu-box ul li a:hover {
+    background-color: #e0e0e0;
+    color: black;
+  }
+  
+/* Indicator CSS */
+.menu-box {
+  position: relative;
+  width: 200px;
+}
+
+#indicator {
+  position: absolute;
+  left: 0;
+  top: 45px;
+  width: 4px; /* Thickness of the indicator line */
+  background-color: #ffffff; /* Color of the indicator line */
+  height: 40px; /* Full height of the menu box */
+  transition: top 0.3s ease; /* Smooth transition for movement */
+}
   .container2 {
       display: flex;
     }
   .container-sidebar {
       display: flex;
-      height: 120vh; 
+      height: auto; 
       width: 250px;
       background-color: #00536b; 
       margin-left: -9%;
@@ -57,7 +114,7 @@
       border-radius: 5px;
       text-align: justify;
       width: 250px;
-      height: auto;
+      height: 100%;
     }
     
     .menu-box h6 {
@@ -113,7 +170,12 @@
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       font-size: 12px;
+      margin-bottom: 7%;
       justify-content: space-evenly;
+    }
+    .insert-data-form .btn-primary2{
+      text-align: center;
+      display: inline-block;
     }
     .form-fields-container{
       display: flex;
@@ -159,6 +221,8 @@
       height: 35px;
       width: 100%;
     }
+
+
   
     .btn-primary {
       background-color: transparent;
@@ -195,11 +259,12 @@
       display: flex;
       justify-content: flex-end;
       width: 100%;
+      margin-top: -5%;
     }
     .btn-delete{
       margin-bottom: 2%;
-      margin-top: 2%;
-      border-color: #D11A2A;
+      margin-top: 0%;
+      border-color: #f03949;
       border-radius: 8px;
       width: 180px;
       height: 40px;
@@ -208,7 +273,7 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     .btn-delete:hover{
-      background-color: #D11A2A;
+      background-color: #f03949;
       color: white;
     }
     .data-table {

@@ -22,6 +22,14 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
 <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farmer's Database</title>
+
+  <!-- Sort Link -->
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<!-- Sort Link End -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
@@ -29,21 +37,33 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
   </script>
 
+
 <script>
-    function toggleForm() {
-      var form = document.getElementById('insertForm');
-      var button = document.getElementById('toggleButton');
-      if (form.style.display === 'none') {
+function toggleForm(formId, buttonId) {
+    var form = document.getElementById(formId);
+    var button = document.getElementById(buttonId);
+    if (form.style.display === 'none') {
         form.style.display = 'block';
         button.textContent = 'Hide Form';
-      } else {
+    } else {
         form.style.display = 'none';
         button.textContent = 'Insert Data';
-      }
     }
-  </script>
+}
+document.querySelectorAll(".insertButton").forEach(button => {
+  button.addEventListener("click", function() {
+    const formId = this.getAttribute("data-form");
+    document.getElementById(formId).style.display = "block";
+  });
+});
 
-  
+document.getElementById("transactionInsertButton").addEventListener("click", function() {
+  document.getElementById("transactionForm").style.display = "block";
+});
+
+
+</script>
+
 </head>
 <body class="container">
     <nav class="navbar bg-body-tertiary">
@@ -53,6 +73,16 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
+    <div class="d-flex-navi">
+      <!-- Settings -->
+      <a href="#" class="nav-link" id="nav-settings-link">
+        <i class="fas fa-cog"></i> </a>
+      <!-- User Profile -->
+      <a href="#" class="nav-link" id="nav-profile-link">
+        <i class="fas fa-user-circle"></i></a>
+        <a href="/logout" class="nav-link" id="nav-out-link">
+        <i class="fas fa-sign-out-alt"></i></a>
+    </div>
   </div>
 </nav>
     
@@ -60,22 +90,25 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
 <div class="container2"> 
 <div class="container-sidebar">
   <div class="menu-box">
-    <h6>MENU</h6>
+    <h6><i class="fas fa-bars"></i>MENU</h6>
     <ul>
-      <li><a href="">Profile</a></li>
-      <li><a href="">Transaction</a></li>
-      <li><a href="">Report</a></li>
-      <li><a href="">Configuration</a></li>
+      <li id="menu-profile"><a href="#" onclick="showSection('profile')"><i class="fas fa-user"></i> Profile</a></li>
+      <li id="menu-transaction"><a href="#" onclick="showSection('transaction')"> <i class="fas fa-exchange-alt"></i>Transaction</a></li>
+      <li id="menu-report"><a href="#" onclick="showSection('report')"><i class="fas fa-file-alt"></i>Report</a></li>
+      <li id="menu-configuration"><a href="#" onclick="showSection('configuration')"> <i class="fas fa-cog"></i>Configuration</a></li>
     </ul>
+    <div id="indicator"></div>
   </div>
 </div>
 
 <main class="main-content">
-      <div class="profile-section">
+      <div id="profile" class="section">
         <h6>Profile Data</h6>
-        <button id="toggleButton" class="btn-primary mb-3" onclick="toggleForm()">Insert Data</button>
-        <form id="insertForm" class="insert-data-form" action="./insert_details.php">
-        <div class="form-fields-container">
+
+        <!-- Insert data into profile -->
+        <button id="toggleButtonProfile" class="btn-primary mb-3" onclick="toggleForm('insertForm', 'toggleButtonProfile')">Insert Data</button>
+        <form id="insertForm" class="insert-data-form" action="./insert_details.php" style="display:none;">
+                  <div class="form-fields-container">
   <div class="form-group">
     <label for="name">Name:</label>
     <input type="text" id="name" name="name" required>
@@ -118,11 +151,14 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
   </div>
   <button type="submit" class="btn-primary2">Submit</button>
 </form>
+
 <!-- Delete Button -->
 <form method="post" action="delete_selected.php">
   <div class="delete-button-container">
       <button type="submit" name="delete" class="btn-delete">Delete Selected</button>
       </div>
+
+<!-- profile data table -->
         <table class="data-table">
           <thead>
             <tr>
@@ -141,7 +177,7 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
 
               <?php foreach($rows as $data):?>
                 <tr>
-                <td><input type="checkbox" name="select[]" value="<?= $data['id']?>"></td>
+              <td><input type="checkbox" name="select[]" value="<?= $data['id']?>"></td>
               <td><?= $data['name']?></td>
               <td><?= $data['email']?></td>
               <td><?= $data['phone_number']?></td>
@@ -156,13 +192,78 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
           </tbody>
         </table>
         </form>
+</div>
+
+
+
+<!-- Transaction -->
+<div id="transaction" class="section" style="display: none;">
+    <h6>Transaction Data</h6>
+
+    <!-- Insert data into transaction -->
+    <button id="toggleButtonTransaction" class="btn-primary mb-3" onclick="toggleForm('transactionForm', 'toggleButtonTransaction')">Insert Data</button>
+    <form id="transactionForm" class="insert-data-form" action=""  style="display:none;">
+        <div class="form-fields-container" id="form-transaction">
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="inflow">Inflow:</label>
+                <input type="text" id="inflow" name="inflow" required>
+            </div>
+            <div class="form-group">
+                <label for="expenditure">Expenditure:</label>
+                <input type="text" id="expenditure" name="expenditure" required>
+            </div>
+            <div class="form-group">
+                <label for="balance">Balance:</label>
+                <input type="text" id="balance" name="balance" required>
+            </div>
+        </div>
+        <button id="transactionInsertButton" type="submit" class="btn-primary2">Submit</button>
+    </form>
+
+               <!-- Delete Button -->
+            <table id="transaction-table" class="data-table" >
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Transaction ID</th>
+                        <th>Name</th>
+                        <th>Date & Time</th>
+                        <th>Inflow</th>
+                        <th>Expenditure</th>
+                        <th>Balance</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example rows -->
+                    <tr>
+                        <td><input type="checkbox" name="select[]" value="<?= $data['id']?>"></td>
+                        <td>001</td>
+                        <td>John Doe</td>
+                        <td>2024-08-18 14:30</td>
+                        <td>5000</td>
+                        <td>2000</td>
+                        <td>3000</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
       </div>
     </main> 
-    </div>
-    
-
 </body>
 </html>
+
+<!-- Sort Operation -->
+ <script>
+$(document).ready( function () {
+    $('#transaction-table').DataTable({
+        "order": [[ 1, "desc" ]] // Sort by the second column (Date Inserted) in descending order
+    });
+});
+</script>
 
 
 <script>
@@ -199,3 +300,59 @@ $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
         }
     }
 </script>
+
+
+<!-- Menu Swap Js -->
+
+<script>
+        function showSection(sectionId) {
+            // Get all section elements
+            const sections = document.querySelectorAll('.section');
+            
+            // Hide all sections
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show the selected section
+            const selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.style.display = 'block';
+            }
+        }
+    </script>
+
+
+
+<!-- Menu Line Highlight script -->
+<script>
+function showSection(sectionId) {
+  // Get all section elements
+  const sections = document.querySelectorAll('.section');
+  
+  // Hide all sections
+  sections.forEach(section => {
+    section.style.display = 'none';
+  });
+  
+  // Show the selected section
+  const selectedSection = document.getElementById(sectionId);
+  if (selectedSection) {
+    selectedSection.style.display = 'block';
+  }
+
+  // Move the indicator
+  const menuItems = document.querySelectorAll('.menu-box ul li');
+  let topPosition = 0;
+  menuItems.forEach(item => {
+    if (item.querySelector('a').getAttribute('onclick') === `showSection('${sectionId}')`) {
+      topPosition = item.offsetTop;
+    }
+  });
+
+  const indicator = document.getElementById('indicator');
+  indicator.style.top = `${topPosition}px`;
+}
+
+</script>
+
