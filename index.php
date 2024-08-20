@@ -5,14 +5,22 @@ $db_username = "root";
 $db_password = "sugam@123";
 $db_name = "farmer_profiles";
 
+// for connection establishment
 $conn = mysqli_connect($hostname, $db_username, $db_password, $db_name);
+
+
+//for profile table
 $query = "SELECT *
 FROM profile
 INNER JOIN contact_info ON profile.id = contact_info.id;";
 $result = mysqli_query($conn,$query);
-//$result1 = mysqli_query($conn,$query1);
 $rows = mysqli_fetch_all($result,MYSQLI_ASSOC);
-//$contact = mysqli_fetch_all($result1,MYSQLI_ASSOC);
+
+//for transactions table
+$query_transactions = "SELECT * FROM transactions;";
+$result1 = mysqli_query($conn,$query_transactions);
+$transactions = mysqli_fetch_all($result1,MYSQLI_ASSOC);
+
 
 ?>
 
@@ -202,7 +210,7 @@ document.getElementById("transactionInsertButton").addEventListener("click", fun
 
     <!-- Insert data into transaction -->
     <button id="toggleButtonTransaction" class="btn-primary mb-3" onclick="toggleForm('transactionForm', 'toggleButtonTransaction')">Insert Data</button>
-    <form id="transactionForm" class="insert-data-form" action=""  style="display:none;">
+    <form id="transactionForm" class="insert-data-form" action="insert_transaction.php"  style="display:none;">
         <div class="form-fields-container" id="form-transaction">
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -230,7 +238,7 @@ document.getElementById("transactionInsertButton").addEventListener("click", fun
                     <tr>
                         <th>Select</th>
                         <th>Transaction ID</th>
-                        <th>Name</th>
+                        <th>Email</th>
                         <th>Date & Time</th>
                         <th>Inflow</th>
                         <th>Expenditure</th>
@@ -239,15 +247,17 @@ document.getElementById("transactionInsertButton").addEventListener("click", fun
                 </thead>
                 <tbody>
                     <!-- Example rows -->
+                    <?php foreach($transactions as $data):?>
                     <tr>
-                        <td><input type="checkbox" name="select[]" value="<?= $data['id']?>"></td>
-                        <td>001</td>
-                        <td>John Doe</td>
-                        <td>2024-08-18 14:30</td>
-                        <td>5000</td>
-                        <td>2000</td>
-                        <td>3000</td>
+                        <td><input type="checkbox" name="select[]" value="<?= $data['t_id']?>"></td>
+                        <td><?= $data['t_id']?></td>
+                        <td><?= $data['email']?></td>
+                        <td><?= $data['created_at']?></td>
+                        <td><?= $data['inflow']?></td>
+                        <td><?= $data['expenditure']?></td>
+                        <td><?= $data['remaining_blc']?></td>
                     </tr>
+                    <?php endforeach;?>
                 </tbody>
             </table>
         </div>
