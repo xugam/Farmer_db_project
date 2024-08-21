@@ -9,7 +9,7 @@
     $name=$_GET['name'];
     //  $document=$_GET['document'];
     // $document_name = $_FILES['document']['name'];
-    $document_name = "xD";
+    $document_name = $_GET['document'];
     //  $document = addslashes(file_get_contents($_FILES['document']['tmp_name']));
 
     $phone_number=$_GET['phone'];
@@ -17,9 +17,8 @@
     $state=$_GET['state'];
     $district=$_GET['district'];
     $city = $_GET['city'];
-    echo $name."<br>".$document."<br>".$phone_number."<br>".$email."<br>".$state."<br>".$district."<br>".$city;
 
-    $query1 = "INSERT INTO profile(name,document_name) values('$name','$documentname');";
+    $query1 = "INSERT INTO profile(name,document_name) values('$name','$document_name');";
     $query = "INSERT INTO contact_info(phone_number,email,state,district,city) values('$phone_number','$email','$state','$district','$city');";
     $result = mysqli_query($conn,$query1);
     $result1 = mysqli_query($conn,$query);
@@ -30,5 +29,6 @@
         die("database error");
 
     }
+    header("Location:./index.php");
 
 ?>

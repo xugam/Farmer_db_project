@@ -8,7 +8,6 @@ $db_name = "farmer_profiles";
 // for connection establishment
 $conn = mysqli_connect($hostname, $db_username, $db_password, $db_name);
 
-
 //for profile table
 $query = "SELECT *
 FROM profile
@@ -68,8 +67,6 @@ document.querySelectorAll(".insertButton").forEach(button => {
 document.getElementById("transactionInsertButton").addEventListener("click", function() {
   document.getElementById("transactionForm").style.display = "block";
 });
-
-
 </script>
 
 </head>
@@ -77,10 +74,7 @@ document.getElementById("transactionInsertButton").addEventListener("click", fun
     <nav class="navbar bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand">Farmer's Database</a>
-    <form class="d-flex" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+  
     <div class="d-flex-navi">
       <!-- Settings -->
       <a href="#" class="nav-link" id="nav-settings-link">
@@ -89,9 +83,9 @@ document.getElementById("transactionInsertButton").addEventListener("click", fun
       <a href="#" class="nav-link" id="nav-profile-link">
         <i class="fas fa-user-circle"></i></a>
         <a href="/logout" class="nav-link" id="nav-out-link">
-        <i class="fas fa-sign-out-alt"></i></a>
+        <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
     </div>
-  </div>
+    </div>
 </nav>
     
 <!-- MENU -->
@@ -157,17 +151,17 @@ document.getElementById("transactionInsertButton").addEventListener("click", fun
     <input type="file" id="document" name="document" accept=".pdf, .doc, .docx, .jpg, .png">
   </div>
   </div>
-  <button type="submit" class="btn-primary2">Submit</button>
+  <button type="submit" class="btn-primary2" onclick="insertAlert()">Submit</button>
 </form>
 
 <!-- Delete Button -->
 <form method="post" action="delete_selected.php">
   <div class="delete-button-container">
-      <button type="submit" name="delete" class="btn-delete">Delete Selected</button>
+      <button type="submit" name="delete" class="btn-delete" onclick="deleteAlert()">Delete Selected</button>
       </div>
 
 <!-- profile data table -->
-        <table class="data-table">
+        <table id="profile-table" class="data-table">
           <thead>
             <tr>
             <th>Select  </th>
@@ -192,7 +186,7 @@ document.getElementById("transactionInsertButton").addEventListener("click", fun
               <td><?= $data['state']?></td>
               <td><?= $data['district']?></td>
               <td><?= $data['city']?></td>
-              <td><?= $data['document']?></td>
+              <td><?= $data['document_name']?></td>
               </tr>
               <?php endforeach?>
 
@@ -229,10 +223,15 @@ document.getElementById("transactionInsertButton").addEventListener("click", fun
                 <input type="text" id="balance" name="balance" required>
             </div>
         </div>
-        <button id="transactionInsertButton" type="submit" class="btn-primary2">Submit</button>
+        <button id="transactionInsertButton" type="submit" class="btn-primary2" onclick="insertAlert()">Submit</button>
     </form>
 
                <!-- Delete Button -->
+<form method="post" action="delete_selected_transactions.php">
+  <div class="delete-button-container">
+      <button type="submit" name="delete" class="btn-delete" onclick="deleteAlert()">Delete Selected</button>
+      </div>
+
             <table id="transaction-table" class="data-table" >
                 <thead>
                     <tr>
@@ -270,6 +269,9 @@ document.getElementById("transactionInsertButton").addEventListener("click", fun
  <script>
 $(document).ready( function () {
     $('#transaction-table').DataTable({
+        "order": [[ 1, "desc" ]] // Sort by the second column (Date Inserted) in descending order
+    });
+    $('#profile-table').DataTable({
         "order": [[ 1, "desc" ]] // Sort by the second column (Date Inserted) in descending order
     });
 });
@@ -315,6 +317,13 @@ $(document).ready( function () {
 <!-- Menu Swap Js -->
 
 <script>
+  //send alert msg
+  function insertAlert(){
+    alert("Successfully Inserted");
+  }
+  function deleteAlert(){
+    alert("Successfully Deleted");
+  }
         function showSection(sectionId) {
             // Get all section elements
             const sections = document.querySelectorAll('.section');
@@ -365,4 +374,3 @@ function showSection(sectionId) {
 }
 
 </script>
-

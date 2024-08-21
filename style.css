@@ -18,19 +18,6 @@
   .navbar .navbar-brand{
       font-size: 16px;
   }
-  .navbar .d-flex{
-  margin-right: 20%;
-  }
-  .custom-navbar .btn-outline-success{
-      color: #00536b;
-      background-color: transparent;
-      border: 2px solid #00536b;
-      transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  .navbar .btn-outline-success:hover {
-      background-color: #00536b; 
-      color: #fff; 
-  }
   .d-flex-navi{
     margin-right: 8%;
     display: flex;
@@ -50,7 +37,7 @@
   }
   /* Body */
   body {
-   background-color: #ffffff;
+   background-color: white;
    color: black;
   }
   
@@ -82,7 +69,7 @@
 /* Indicator CSS */
 .menu-box {
   position: relative;
-  width: 200px;
+  width: 150px;
 }
 
 #indicator {
@@ -100,10 +87,10 @@
   .container-sidebar {
       display: flex;
       height: auto; 
-      width: 250px;
+      width: 235px;
       background-color: #00536b; 
-      margin-left: -9%;
-      padding: 20px;
+      margin-left: -10%;
+      padding: 10px;
       box-shadow: 2px 0 5px rgba(0,0,0,0.1); 
       margin-right: 20px;
     }
@@ -276,6 +263,8 @@
       background-color: #f03949;
       color: white;
     }
+
+/*     
     .data-table {
       width: auto;
       border-collapse: collapse;
@@ -304,4 +293,56 @@
     .data-table tbody tr:nth-child(even) {
       background-color: #f2f2f2;
       color: #000000; 
-    }
+    } */
+
+
+  .data-table {
+      border-radius: 15px;
+      overflow: hidden;
+  }  
+  .data-table tbody tr {
+      background-color: #f9f9f9; /* Light background color for rows */
+      border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .data-table td, .table th {
+      padding: 15px;
+  }
+  .data-table td, .data-table th {
+    padding: 15px;
+    padding-top: 20px;
+}
+  .data-table {
+      box-shadow: 2px 0 0 2px #eeeeee;
+  }
+
+
+/* Paginate Option */
+.dataTables_wrapper .dataTables_paginate {
+  margin-top: 15px; 
+  text-align: center;
+}
+
+/* Search Box Container */
+.dataTables_wrapper .dataTables_filter {
+  margin-bottom: 25px; /* Adjust margin to control spacing around the search box */
+  text-align: center; /* Center-align search box container */
+}
+/* Search Box Label */
+.dataTables_wrapper .dataTables_filter label {
+  font-size: 1em; /* Font size for the label */
+  color: #333; /* Text color for the label */
+  margin-right: 20px; /* Space between label and input */
+  white-space: nowrap; /* Prevent label text from wrapping */
+}
+
+/* Search Box Input */
+.dataTables_wrapper .dataTables_filter input {
+  padding: 8px 12px; /* Padding for input field */
+  border: 1px solid #bab9b9; /* Border for input field */
+  border-radius: 4px; /* Rounded corners for input field */
+  font-size: 1em; /* Font size for input text */
+  width: 100%; /* Full width */
+  max-width: 250px; /* Maximum width */
+  box-sizing: border-box; /* Box sizing for padding */
+}
