@@ -31,6 +31,9 @@
   .d-flex-navi #nav-out-link{
     color: #f03949;
   }
+  .d-flex-navi #nav-out-link:hover{
+    color: #000000;
+  }
   .nav-link{
     font-size: 26px;
     color: #00536b;
@@ -52,10 +55,6 @@
     padding: 10px;
     border-radius: 3px;
   }
-  .menu-box h6 i{
-    padding-right: 10px;
-    padding-left: 3px;
-  }
   .menu-box ul li a i {
     font-size: 18px; 
     padding-right: 10px;
@@ -71,7 +70,9 @@
   position: relative;
   width: 150px;
 }
-
+.menu-box #menu-head{
+  padding-left: 15px;
+}
 #indicator {
   position: absolute;
   left: 0;
@@ -153,12 +154,13 @@
       flex-direction: column;
       background-color: #ececec;
       padding: 10px;
-      width: 100%;
+      width: auto;
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       font-size: 12px;
       margin-bottom: 7%;
       justify-content: space-evenly;
+      overflow-y: auto;
     }
     .insert-data-form .btn-primary2{
       text-align: center;
@@ -346,3 +348,69 @@
   max-width: 250px; /* Maximum width */
   box-sizing: border-box; /* Box sizing for padding */
 }
+
+
+
+/* Login CSS */
+.login-body {
+  background: url('farm.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f0f0f0;
+}
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.login-form h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.login-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #00536b;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.login-form button:hover {
+  background-color: #004558;
+}
+
+#errorMessage{
+  padding-top: 20px;
+  text-align: center;
+}
+
+
+

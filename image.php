@@ -1,11 +1,15 @@
 <?php
-$servername = "localhost";
-$username = "root"; // Your database username
-$password = "sugam@123"; // Your database password
-$dbname = "farmer_profiles"; // Your database name
+// $hostname = "localhost";
+    // $db_username = "root";
+    // $db_password = "sugam@123";
+    // $db_name = "farmer_profiles";
+    $hostname = "sql110.infinityfree.com";
+    $db_username = "if0_37166812";
+    $db_password = "MKTbguBxFc5wf";
+    $db_name = "if0_37166812_farmer_profiles";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($hostname, $username, $db_password, $db_name);
 
 // Check connection
 if ($conn->connect_error) {
