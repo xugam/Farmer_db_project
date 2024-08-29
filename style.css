@@ -414,3 +414,68 @@
 
 
 
+
+
+/* Config */
+.dropdown{
+  padding-left: -100px;
+}
+.config-menu {
+  width: 300px;
+  margin: 20px;
+}
+.dropdown-btn{
+  border: transparent;
+  background-color: white;
+  cursor: pointer;
+  padding: 10px;
+}
+.conf-icon{
+  padding-left: 20px;
+}
+.dropdown-content {
+  display: none;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 10px;
+  margin-top: 5px;
+  width: 300px;
+  margin-bottom: 3%;
+}
+.dropdown-content form {
+  display: flex;
+  flex-direction: column;
+}
+.dropdown-content input {
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+
+.dropdown-content button {
+  padding: 10px;
+  background-color: #00536b;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+#update-btn:hover{
+  background-color: #004558;
+}
+
+.dropdown-btn:focus + .dropdown-content,
+.dropdown-content:hover {
+  display: block;
+}
+.config-line{
+  content: "";
+  display: block;
+  height: 5px;
+  width: auto;
+  background-color: #333;
+  color: #000000;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

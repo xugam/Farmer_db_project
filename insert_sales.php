@@ -1,7 +1,7 @@
 <?php
     $hostname = "localhost";
     $db_username = "root";
-    $db_password = "sugam@123";
+    $db_password = "aayush";
     $db_name = "farmer_profiles";
     // $hostname = "sql110.infinityfree.com";
     // $db_username = "if0_37166812";
@@ -10,12 +10,12 @@
 
     $conn = mysqli_connect($hostname, $db_username, $db_password, $db_name);
 
-    $sales_item = $GET['sales_item'];
-    $unit = $GET['unit'];
-    $rate = $GET['rate'];
-    $quantity = $GET['quantity'];
+    $sales_item = $_POST['sales_item'];
+    $unit = $_POST['unit'];
+    $rate = $_POST['rate'];
+    $quantity = $_POST['quantity'];
     $amount = $rate * $quantity;
-    $phone_number = $GET['phone_number'];
+    $phone_number = $_POST['phone_number'];
 
 
 

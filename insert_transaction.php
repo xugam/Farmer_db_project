@@ -1,7 +1,7 @@
 <?php
   $hostname = "localhost";
   $db_username = "root";
-  $db_password = "sugam@123";
+  $db_password = "aayush";
   $db_name = "farmer_profiles";
   // $hostname = "sql110.infinityfree.com";
   // $db_username = "if0_37166812";

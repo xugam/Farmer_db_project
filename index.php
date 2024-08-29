@@ -2,7 +2,7 @@
 //defining the database variables
 $hostname = "localhost";
 $db_username = "root";
-$db_password = "sugam@123";
+$db_password = "aayush";
 $db_name = "farmer_profiles";
 // $hostname = "sql110.infinityfree.com";
 // $db_username = "if0_37166812";
@@ -88,9 +88,6 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
         <!-- Settings -->
         <a href="#" class="nav-link" id="nav-settings-link">
           <i class="fas fa-cog"></i> </a>
-        <!-- User Profile -->
-        <a href="#" class="nav-link" id="nav-profile-link">
-          <i class="fas fa-user-circle"></i></a>
         <a href="/logout" class="nav-link" id="nav-out-link">
           <i class="fa-solid fa-arrow-right-from-bracket"></i></a>
       </div>
@@ -196,7 +193,7 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
                   <td><?= $data['state'] ?></td>
                   <td><?= $data['district'] ?></td>
                   <td><?= $data['city'] ?></td>
-                  <td><img src="<?= $data['document_path']?>" style="width: 100px; height: 100px"></td>
+                  <td><img src="<?= $data['document_path'] ?>" style="width: 100px; height: 100px"></td>
 
                 </tr>
               <?php endforeach ?>
@@ -279,12 +276,12 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
       <div id="sales" class="section" style="display: none;">
         <h6>Sales Data</h6>
         <!-- Insert data into sales -->
-        <button id="toggleButtonSales" class="btn-primary mb-3" onclick="toggleForm('demoform','toggleButtonSales')" type="button">Insert Data</button>
-        <form class="insert-data-form" id="demoform" action="insert_sales.php" style="display:none;">
+        <button id="toggleButtonSales" class="btn-primary mb-3" onclick="toggleForm('salesForm','toggleButtonSales')" type="button">Insert Data</button>
+        <form class="insert-data-form" id="salesForm" action="insert_sales.php" style="display:none;" method="post">
           <div class="form-fields-container" id="form-sales">
             <div class="form-group">
               <label for="item">Item:</label>
-              <input type="text" id="item" name="item" required>
+              <input type="text" id="item" name="sales_item" required>
             </div>
             <div class="form-group">
               <label for="unit">Unit:</label>
@@ -317,6 +314,7 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
             <thead>
               <tr>
                 <th>Select</th>
+                <th>Date & Time</th>
                 <th>Sales Item</th>
                 <th>Unit</th>
                 <th>Rate</th>
@@ -345,6 +343,50 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
       </div>
 
 
+      <!-- Report -->
+      <div id="report" class="section" style="display: none;">
+        <h6>Report</h6>
+      </div>
+
+
+
+      <!-- Configuration -->
+      <div id="configuration" class="section" style="display: none;">
+        <h6>Configuration</h6>
+        <div class="dropdown">
+          <button class="dropdown-btn">Change Username <i id="conf-icon" class="fa-solid fa-angle-down"></i></button>
+          <div class="dropdown-content">
+            <form id="username-form" method="post" >
+              <label for="old-username">Current Username:</label>
+              <input type="text" id="old-username" name="old-username">
+              <label for="new-username">New Username:</label>
+              <input type="text" id="new-username" name="new-username">
+              <button id="update-btn" type="submit">Update Username</button>
+            </form>
+          </div>
+        </div>
+        <div class="config-line">
+
+        </div>
+        <div class="dropdown">
+          <button class="dropdown-btn">Change Password <i id="conf-icon" class="fa-solid fa-angle-down"></i></button>
+          <div class="dropdown-content">
+            <form id="password-form">
+              <label for="old-password">Current Password:</label>
+              <input type="password" id="old-password" name="old-password">
+              <label for="new-password">New Password:</label>
+              <input type="password" id="new-password" name="new-password">
+              <label for="confirm-password">Confirm Password:</label>
+              <input type="password" id="confirm-password" name="confirm-password">
+              <button id="update-btn" type="submit">Update Password</button>
+            </form>
+          </div>
+        </div>
+
+
+      </div>
+
+
   </div>
   </main>
 </body>
@@ -365,7 +407,7 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
     document.getElementById("transactionForm").style.display = "block";
   });
   document.getElementById("salesInsertButton").addEventListener("click", function() {
-    document.getElementById("demoform").style.display = "block";
+    document.getElementById("salesForm").style.display = "block";
   });
 </script>
 
