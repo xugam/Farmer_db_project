@@ -1,18 +1,6 @@
-<?php
+<?php require 'connection.php';
+
 //defining the database variables
-$hostname = "localhost";
-$db_username = "root";
-$db_password = "aayush";
-$db_name = "farmer_profiles";
-// $hostname = "sql110.infinityfree.com";
-// $db_username = "if0_37166812";
-// $db_password = "MKTbguBxFc5wf";
-// $db_name = "if0_37166812_farmer_profiles";
-
-// for connection establishment
-$conn = mysqli_connect($hostname, $db_username, $db_password, $db_name);
-
-
 //for profile table
 $query = "SELECT *
 FROM profile
@@ -30,7 +18,22 @@ $query_sales = "SELECT * FROM sales;";
 $result1 = mysqli_query($conn, $query_sales);
 $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
 
+//for barchart
+$barchart_query = "SELECT *
+FROM profile
+INNER JOIN contact_info ON profile.id = contact_info.id
+INNER JOIN sales ON contact_info.phone_number = sales.phone_number;";
+$result = mysqli_query($conn, $barchart_query);
+$barchart = mysqli_fetch_all($result, MYSQLI_ASSOC);
+$amount[] = array();
+$date[] = array();
+$name[] = array();
+foreach ($barchart as $data) {
+  array_push($amount,$data["amount"]);
+  array_push($date,$data["date"]);
+  array_push($name,$data["name"]);
 
+}
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +57,8 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 
   <script>
@@ -346,6 +351,9 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
       <!-- Report -->
       <div id="report" class="section" style="display: none;">
         <h6>Report</h6>
+        <div class="chartBox">
+          <canvas id="myChart"></canvas>
+        </div>
       </div>
 
 
@@ -356,7 +364,7 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
         <div class="dropdown">
           <button class="dropdown-btn">Change Username <i id="conf-icon" class="fa-solid fa-angle-down"></i></button>
           <div class="dropdown-content">
-            <form id="username-form" method="post" >
+            <form id="username-form" method="post" action="updateusername.php" >
               <label for="old-username">Current Username:</label>
               <input type="text" id="old-username" name="old-username">
               <label for="new-username">New Username:</label>
@@ -371,7 +379,7 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
         <div class="dropdown">
           <button class="dropdown-btn">Change Password <i id="conf-icon" class="fa-solid fa-angle-down"></i></button>
           <div class="dropdown-content">
-            <form id="password-form">
+            <form id="password-form" method="post" action="updatepassword.php">
               <label for="old-password">Current Password:</label>
               <input type="password" id="old-password" name="old-password">
               <label for="new-password">New Password:</label>
@@ -536,3 +544,43 @@ $sales = mysqli_fetch_all($result1, MYSQLI_ASSOC);
     window.location.href = "login.php"; // This can be any page that handles the logout, e.g., destroying the session
   });
 </script>
+
+  
+<!-- chart generation -->
+<script>
+
+  //Setup block
+  const amount = <?php echo json_encode($amount)?>;
+  const date = <?php echo json_encode($date)?>;
+  const name = <?php echo json_encode($name)?>;
+  console.log(amount);
+  console.log(date);
+  console.log(name);
+
+
+  const data = {
+    labels: name,
+        datasets: [{
+          label: '# of Votes',
+          data: amount,
+          borderWidth: 1
+        }] 
+      };
+  //Config block
+  const config = {type: 'bar',
+      data,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }};
+  //Render block
+  const myChart = new Chart(
+    document.getElementById('myChart'),config
+  );
+
+  
+  </script>
+  
